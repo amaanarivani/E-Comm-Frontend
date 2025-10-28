@@ -58,14 +58,14 @@ const Drawer = () => {
                 aria-label="Sidebar"
                 style={{ position: "fixed", zIndex: 999 }}
             >
-                <div className="flex justify-between mx-5 mt-5">
+                {/* <div className="flex justify-between mx-5">
                     <div className={`${isSideBarNavOpen ? "block" : "hidden"} text-white text-3xl font-bold`}>
                         E-Comm
                     </div>
                     <Menu className="text-white cursor-pointer" fontSize="large" onClick={() => {
                         setIsSideBarNavOpen(!isSideBarNavOpen)
                     }} />
-                </div>
+                </div> */}
                 {/* <div className="fixed"> */}
 
 
