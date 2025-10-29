@@ -85,7 +85,7 @@ export type tourTableType = {
   };
 };
 export type stateType = {
-  userData: { _id: string; email: string; name: string, token: string };
+  userData: { id: number; email: string; name: string, token: string };
   getUserDetails: {};
   userToken: string | null;
   isLoading: boolean;
@@ -319,7 +319,7 @@ const AuthReducer: authReducerType = (
   } else if (action.type === "SIGN_OUT") {
     return {
       ...state,
-      userData: { _id: "", email: "", name: "", token: '' },
+      userData: { id: 0, email: "", name: "", token: '' },
       getUserDetails: [],
       isSignout: true,
       userToken: null,
@@ -1079,13 +1079,13 @@ const fetchUpdatedProfileData: actionFunctionType = (dispatch) => {
 };
 
 const signOut: actionFunctionType = (dispatch) => {
-  return async ({ navigation, user_id, socket, mode, router, userToken, setError, setSuccess }) => {
+  return async ({ navigation, user_id, socket, mode, router, userToken, email, setError, setSuccess }) => {
     try {
       const BG_TASK = "BACKGROUND-NOTIFICATION-TASK";
       // await AsyncStorage.setItem("isLoggedIn", "false");
       // const token = await AsyncStorage.getItem("token");
       const res = await axios.post(
-        process.env.apiUrl + "/api/signout",
+        process.env.apiUrl + `/api/auth/signout/${email}`,
         {},
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
@@ -1142,14 +1142,14 @@ const updateUserData: actionFunctionType = (dispatch) => {
       //     });
       let userToken = window.localStorage.getItem("token");
       let res = await axios.post(
-        process.env.apiUrl + "/api/get-loggedin-user-admin",
+        process.env.apiUrl + "/api/auth/get-loggedin-user",
         {},
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
 
       // console.log(res?.data?.result, "updatae single user...........")
-      dispatch({ type: "UPDATE_TOKEN", payload: { token: res?.data?.result?.token } });
-      dispatch({ type: "UPDATE_USER_DATA", payload: res?.data?.result });
+      dispatch({ type: "UPDATE_TOKEN", payload: { token: res?.data?.token } });
+      dispatch({ type: "UPDATE_USER_DATA", payload: res?.data });
 
       if (onSignIn) {
         router.push("/dashboard");
@@ -2263,7 +2263,7 @@ const { Context, Provider } = createDataContext(
     setCurrentQId,
   },
   {
-    userData: { _id: "", email: "", name: "", token: '' },
+    userData: { id: 0, email: "", name: "", token: '' },
     getUserDetails: {},
     userToken: null,
     isLoading: true,
