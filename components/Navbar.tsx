@@ -45,17 +45,17 @@ const Navbar = () => {
   }, [success, error])
 
 
-  // const handleSignout = () => {
-  //   try {
-  //     setIsMenuDropOpen(false);
-  //     signOut({ router, userToken: state?.userToken, setError, setSuccess });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const menuOpen = () => {
-  //   toggleSideBar({ value: false })
-  // };
+  const handleSignout = () => {
+    try {
+      setIsMenuDropOpen(false);
+      signOut({ router, userToken: state?.userToken, email: state?.userData?.email, setError, setSuccess });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const menuOpen = () => {
+    toggleSideBar({ value: false })
+  };
 
   return (
     <>
@@ -138,7 +138,7 @@ const Navbar = () => {
                     <ul className="py-2" aria-labelledby="user-menu-button">
                       <li className="cursor-pointer" >
                         <span
-                          // onClick={handleSignout}
+                          onClick={handleSignout}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-center"
                         >
                           Sign out
